@@ -1,0 +1,957 @@
+/* =========================================================
+   Інтерактивна навчальна вебсторінка з інформатики (8 клас)
+   Тема: Написи в Python (tkinter.Label)
+   Версія 2: Симулятори із завданнями + Практичні + Тестові завдання
+   ========================================================= */
+
+:root {
+  --bg-page: #f4f7ff;
+  --bg-card: #ffffff;
+  --bg-soft-blue: #eef5ff;
+  --bg-soft-purple: #f3efff;
+  --bg-soft-yellow: #fffbe6;
+  --primary-blue: #1d4ed8;
+  --primary-sky: #0284c7;
+  --accent-purple: #6d28d9;
+  --accent-yellow: #eab308;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-color: #cbd5e1;
+  --warning-text: #854d0e;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 8px 24px rgba(29, 78, 216, 0.08);
+  --shadow-btn: 0 4px 12px rgba(29, 78, 216, 0.2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Roboto", "Inter", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(14, 165, 233, 0.14), transparent 34%),
+    radial-gradient(circle at 88% 14%, rgba(109, 40, 217, 0.13), transparent 36%),
+    radial-gradient(circle at 50% 95%, rgba(250, 204, 21, 0.16), transparent 42%),
+    var(--bg-page);
+  min-height: 100vh;
+}
+
+/* -------------------- Інформаційна панель -------------------- */
+.info-banner {
+  background: linear-gradient(95deg, #1e3a8a 0%, #2563eb 42%, #6d28d9 100%);
+  color: #ffffff;
+  padding: 12px 18px;
+  box-shadow: 0 4px 16px rgba(30, 58, 138, 0.18);
+}
+
+.info-banner__inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+}
+
+.info-banner__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.info-chip {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(4px);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-chip strong {
+  font-weight: 700;
+}
+
+.info-chip--topic {
+  background: rgba(254, 249, 195, 0.95);
+  color: #1e293b;
+  border-color: #fde047;
+  font-weight: 600;
+}
+
+/* -------------------- Панель прогресу та навігації -------------------- */
+.progress-nav-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.progress-nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.progress-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+.progress-track {
+  flex: 1;
+  min-width: 180px;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #0284c7, #2563eb, #7c3aed);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.score-pill {
+  background: var(--bg-soft-yellow);
+  border: 1.5px solid #facc15;
+  color: #713f12;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 3px 12px;
+  border-radius: 999px;
+}
+
+.section-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab-btn {
+  border: 1.5px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  border-color: var(--primary-blue);
+  background: var(--bg-soft-blue);
+  color: var(--primary-blue);
+}
+
+.tab-btn.is-active {
+  background: linear-gradient(135deg, #2563eb, #6d28d9);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* -------------------- Контейнер та екрани-сторінки -------------------- */
+.main-container {
+  max-width: 1060px;
+  margin: 24px auto 48px;
+  padding: 0 18px;
+}
+
+.page-screen {
+  display: none;
+  animation: fadeInScreen 0.25s ease;
+}
+
+.page-screen.is-active {
+  display: block;
+}
+
+@keyframes fadeInScreen {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -------------------- Картки, код та типографіка -------------------- */
+.card {
+  background: var(--bg-card);
+  border: 1.5px solid #dbeafe;
+  border-radius: var(--radius-lg);
+  padding: 24px 26px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 20px;
+}
+
+.card--hero {
+  border-top: 6px solid #2563eb;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.card--theory-1 {
+  border-left: 6px solid #0284c7;
+}
+
+.card--theory-2 {
+  border-left: 6px solid #6d28d9;
+}
+
+.card--theory-3 {
+  border-left: 6px solid #eab308;
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  background: var(--bg-soft-purple);
+  color: var(--accent-purple);
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 6px 0 10px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.25;
+  color: #1e3a8a;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.3rem, 2.3vw, 1.65rem);
+  line-height: 1.3;
+  color: #1e1b4b;
+}
+
+.lead-text {
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  margin-top: 0;
+}
+
+.instruction-box {
+  background: var(--bg-soft-yellow);
+  border: 1.5px solid #fde047;
+  border-left: 6px solid var(--accent-yellow);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin: 18px 0 22px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.rule-box {
+  background: var(--bg-soft-blue);
+  border: 1.5px solid #93c5fd;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin: 14px 0;
+  color: #1e3a8a;
+}
+
+.rule-box--purple {
+  background: var(--bg-soft-purple);
+  border-color: #c4b5fd;
+  color: #4c1d95;
+}
+
+code {
+  font-family: "Consolas", "Fira Code", "Courier New", monospace;
+  background: #e2e8f0;
+  color: #1e1b4b;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.95em;
+}
+
+.code-block {
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: "Consolas", "Fira Code", "Courier New", monospace;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin: 12px 0;
+  border-left: 5px solid #38bdf8;
+}
+
+.code-block .kw {
+  color: #7dd3fc;
+  font-weight: 700;
+}
+
+.code-block .str {
+  color: #fde047;
+}
+
+.code-block .cm {
+  color: #94a3b8;
+}
+
+.examples-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.example-tile {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  text-align: center;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.example-tile span {
+  display: block;
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* -------------------- Інтерактивні симулятори Python / tkinter -------------------- */
+.sim-card {
+  background: #ffffff;
+  border: 2px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.sim-task-brief {
+  background: var(--bg-soft-yellow);
+  border: 1.5px solid #fde047;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  color: #1e293b;
+}
+
+.sim-workspace {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(270px, 1.15fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+@media (max-width: 780px) {
+  .sim-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sim-controls-panel {
+  background: var(--bg-soft-blue);
+  border: 1.5px solid #93c5fd;
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sim-control-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sim-control-row label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.sim-window-frame {
+  background: #e2e8f0;
+  border: 2px solid #64748b;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-window-bar {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sim-window-canvas {
+  flex: 1;
+  min-height: 185px;
+  padding: 16px;
+  background: #f8fafc;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sim-window-canvas--coords {
+  display: block;
+  min-height: 220px;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.25) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.sim-label-preview {
+  padding: 8px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  border-radius: 4px;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.sim-label-preview--placed {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.sim-code-strip {
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: "Consolas", "Fira Code", monospace;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  border-top: 1px solid #334155;
+  overflow-x: auto;
+}
+
+/* -------------------- Практичні завдання (редактор коду + запуск) -------------------- */
+.practice-card {
+  background: #ffffff;
+  border: 2px solid #ddd6fe;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.code-editor-area {
+  width: 100%;
+  min-height: 112px;
+  padding: 12px 14px;
+  font-family: "Consolas", "Fira Code", "Courier New", monospace;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #f8fafc;
+  background: #0f172a;
+  border: 2px solid #475569;
+  border-radius: var(--radius-sm);
+  resize: vertical;
+}
+
+.code-editor-area:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+}
+
+.practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.practice-preview-box {
+  margin-top: 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.practice-preview-header {
+  background: #e2e8f0;
+  color: #1e293b;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 5px 12px;
+}
+
+.practice-preview-stage {
+  min-height: 95px;
+  padding: 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------------------- Форми та поля вводу -------------------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.text-input,
+.select-input {
+  width: 100%;
+  padding: 10px 13px;
+  font-size: 1.02rem;
+  font-family: inherit;
+  color: var(--text-main);
+  background: #ffffff;
+  border: 2px solid #94a3b8;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-input:focus,
+.select-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* -------------------- Тестові завдання -------------------- */
+.question-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.question-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.question-title {
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: #0f172a;
+}
+
+.points-tag {
+  flex-shrink: 0;
+  background: var(--bg-soft-blue);
+  color: var(--primary-blue);
+  border: 1px solid #93c5fd;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.options-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.18s ease;
+}
+
+.option-item:hover {
+  border-color: var(--primary-sky);
+  background: var(--bg-soft-blue);
+}
+
+.option-item input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-blue);
+  cursor: pointer;
+}
+
+.status-note {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-height: 24px;
+}
+
+.status-note--saved {
+  color: var(--primary-blue);
+}
+
+.status-note--warn {
+  color: var(--warning-text);
+}
+
+/* -------------------- Кнопки та навігація -------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 11px 20px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #2563eb, #6d28d9);
+  color: #ffffff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn--sky {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn--secondary {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.btn--secondary:hover {
+  background: #cbd5e1;
+}
+
+.btn--warning {
+  background: #fef08a;
+  color: #713f12;
+  border: 1.5px solid #eab308;
+}
+
+.nav-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 2px solid #e2e8f0;
+}
+
+.nav-footer__right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* -------------------- Підсумковий звіт та шкала -------------------- */
+.report-school-header {
+  text-align: center;
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.report-school-header__institution {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.report-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.report-meta-box {
+  background: var(--bg-soft-blue);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.report-meta-box span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.report-meta-box strong {
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0 20px;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 14px;
+  text-align: left;
+}
+
+.report-table th {
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.report-table tr.total-row td {
+  background: var(--bg-soft-purple);
+  font-weight: 800;
+  color: #3b0764;
+}
+
+.summary-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.highlight-card {
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  border: 2px solid #93c5fd;
+  background: #f8fafc;
+}
+
+.highlight-card--grade {
+  background: var(--bg-soft-yellow);
+  border-color: #facc15;
+}
+
+.highlight-card__value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  line-height: 1.2;
+}
+
+.highlight-card--grade .highlight-card__value {
+  color: #854d0e;
+}
+
+.comment-banner {
+  background: var(--bg-soft-purple);
+  border: 1.5px solid #c4b5fd;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #3b0764;
+  margin: 16px 0;
+}
+
+.scale-details {
+  margin-top: 14px;
+}
+
+.scale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.scale-cell {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.print-sign-block {
+  display: none;
+}
+
+.print-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.btn--print {
+  font-size: 1.12rem;
+  padding: 14px 26px;
+}
+
+/* -------------------- Адаптивність для мобільних пристроїв -------------------- */
+@media (max-width: 600px) {
+  .card {
+    padding: 18px 16px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .nav-footer__right {
+    width: 100%;
+  }
+
+  .nav-footer__right .btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* -------------------- Друк звіту у форматі А4 -------------------- */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+    line-height: 1.45;
+  }
+
+  .info-banner,
+  .progress-nav-wrapper,
+  .nav-footer,
+  .print-actions,
+  .scale-details,
+  .no-print {
+    display: none !important;
+  }
+
+  .main-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .page-screen {
+    display: none !important;
+  }
+
+  #page-report {
+    display: block !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #64748b !important;
+    padding: 16px !important;
+    margin-bottom: 12px !important;
+    break-inside: avoid;
+  }
+
+  .report-meta-box,
+  .highlight-card,
+  .comment-banner,
+  .report-table th,
+  .report-table tr.total-row td {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #64748b !important;
+  }
+
+  .print-sign-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    margin-top: 28px;
+    padding-top: 12px;
+  }
+
+  .sign-line {
+    border-bottom: 1px solid #000000;
+    height: 26px;
+    margin-bottom: 6px;
+  }
+}

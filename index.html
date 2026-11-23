@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Інформатика, 8 клас — Написи в Python</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Обов'язкова інформаційна панель на початку кожної сторінки -->
+  <header class="info-banner" aria-label="Інформаційна панель">
+    <div class="info-banner__inner">
+      <div class="info-banner__group">
+        <span class="info-chip">🎓 <strong>Клас:</strong> 8</span>
+        <span class="info-chip">💻 <strong>Предмет:</strong> Інформатика</span>
+        <span class="info-chip info-chip--topic">
+          📘 <strong>Тема:</strong> Написи в Python
+        </span>
+      </div>
+      <div class="info-banner__group">
+        <span class="info-chip">👤 <strong>ПІБ учня:</strong> <span id="banner-pib">Не вказано</span></span>
+        <span class="info-chip">🏫 <strong>Клас учня:</strong> <span id="banner-class">Не вказано</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Індикатор прогресу та навігація по сторінках -->
+  <div class="progress-nav-wrapper">
+    <div class="progress-nav-inner">
+      <div class="progress-row">
+        <div class="progress-label">
+          📊 Прогрес виконання: <span id="progress-percent-text">0% (0/14)</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          <div id="progress-bar-fill" class="progress-fill"></div>
+        </div>
+        <div class="score-pill">
+          ⭐ Бали: <span id="live-points-text">0 / 24</span>
+        </div>
+      </div>
+
+      <nav class="section-tabs" aria-label="Розділи роботи">
+        <button type="button" class="tab-btn is-active" data-goto="start">Старт</button>
+        <button type="button" class="tab-btn" data-goto="theory">1. Теорія</button>
+        <button type="button" class="tab-btn" data-goto="simulators">2. Симулятори (1–3)</button>
+        <button type="button" class="tab-btn" data-goto="practice">3. Практичні (4–6)</button>
+        <button type="button" class="tab-btn" data-goto="test">4. Тести (7–14)</button>
+        <button type="button" class="tab-btn" data-goto="report">5. Звіт</button>
+      </nav>
+    </div>
+  </div>
+
+  <main class="main-container">
+    <!-- ==================== СТАРТОВА СТОРІНКА ==================== -->
+    <section id="page-start" class="page-screen is-active">
+      <div class="card card--hero">
+        <span class="badge-pill">🐍 Інтерактивний практикум • 8 клас</span>
+        <h1>Написи в Python</h1>
+        <p class="lead-text">
+          Навчально-перевірочна робота з бібліотеки <code>tkinter</code> (віджет <code>Label</code>): інтерактивні симулятори налаштування напису, практичні завдання з написання коду Python та тестова перевірка знань. Максимальний результат — <strong>24 бали</strong>.
+        </p>
+
+        <div class="instruction-box">
+          Уважно прочитай теоретичний матеріал, виконай усі завдання та перевір свої знання. Відповіді зберігатимуться під час роботи. Після завершення ти отримаєш результат і звіт, який можна роздрукувати.
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="input-pib">Прізвище, ім'я та по батькові учня *</label>
+            <input
+              id="input-pib"
+              type="text"
+              class="text-input"
+              placeholder="Наприклад: Коваленко Максим Андрійович"
+              autocomplete="name"
+            />
+          </div>
+          <div class="form-field">
+            <label for="input-class">Клас *</label>
+            <input
+              id="input-class"
+              type="text"
+              class="text-input"
+              placeholder="Наприклад: 8-А, 8-Б, 8-В"
+            />
+          </div>
+        </div>
+
+        <div id="start-validation-msg" class="status-note" style="display:none; margin-bottom:14px;"></div>
+
+        <button type="button" id="btn-start-work" class="btn btn--primary">
+          🚀 Розпочати роботу
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 1. ТЕОРЕТИЧНИЙ БЛОК ==================== -->
+    <section id="page-theory" class="page-screen">
+      <div class="card card--theory-1">
+        <span class="badge-pill">Підрозділ 1.1</span>
+        <h2>Створення напису (віджет Label) у tkinter</h2>
+        <p>
+          У бібліотеці <code>tkinter</code> для виведення текстової інформації у вікні програми використовують елемент керування (віджет) <strong><code>Label</code></strong> (напис).
+        </p>
+        <p>
+          Загальний синтаксис створення напису: <code>ім'я = Label(вікно, властивість=значення, ...)</code>. Щоб напис з'явився у вікні, його розміщують за допомогою менеджера компонування: <code>pack()</code> або <code>place(x=..., y=...)</code>.
+        </p>
+        <div class="code-block">
+          <span class="kw">from</span> tkinter <span class="kw">import</span> *<br />
+          root = Tk()<br />
+          root.title(<span class="str">"Написи в Python"</span>)<br />
+          lbl = Label(root, text=<span class="str">"Вітаю у 8 класі!"</span>)<br />
+          lbl.pack() <span class="cm"># розміщення напису у вікні</span><br />
+          root.mainloop()
+        </div>
+        <div class="examples-strip">
+          <div class="example-tile"><code>Label(root, text="...")</code><span>Створення об'єкта напису</span></div>
+          <div class="example-tile"><code>lbl.pack()</code><span>Автоматичне пакування у вікні</span></div>
+          <div class="example-tile"><code>lbl.place(x=40, y=60)</code><span>Точне розміщення за координатами</span></div>
+        </div>
+      </div>
+
+      <div class="card card--theory-2">
+        <span class="badge-pill">Підрозділ 1.2</span>
+        <h2>Оформлення напису: текст, кольори та шрифт</h2>
+        <div class="rule-box rule-box--purple">
+          • <code>text</code> — рядок тексту, що відображається в написі;<br />
+          • <code>fg</code> (або <code>foreground</code>) — колір символів тексту (наприклад, <code>"blue"</code>, <code>"white"</code>, <code>"green"</code>);<br />
+          • <code>bg</code> (або <code>background</code>) — колір фону під написом (наприклад, <code>"yellow"</code>, <code>"purple"</code>);<br />
+          • <code>font</code> — кортеж із параметрами шрифту: <code>("Назва_шрифту", розмір, "накреслення")</code>, де накреслення — <code>"bold"</code> (напівжирний), <code>"italic"</code> (курсив), <code>"underline"</code> (підкреслений);<br />
+          • <code>width</code> та <code>height</code> — ширина (у символах) і висота (у рядках) текстового напису.
+        </div>
+      </div>
+
+      <div class="card card--theory-3">
+        <span class="badge-pill">Підрозділ 1.3</span>
+        <h2>Зміна властивостей напису під час роботи програми</h2>
+        <p>
+          Щоб оновити текст, колір або шрифт уже створеного напису під час виконання програми, використовують метод <strong><code>config()</code></strong> (або <code>configure()</code>).
+        </p>
+        <div class="rule-box">
+          <strong>Приклад зміни властивостей:</strong><br />
+          <code>msg_lbl = Label(root, text="Очікування...")</code><br />
+          <code>msg_lbl.config(text="Роботу виконано!", fg="green")</code>
+        </div>
+
+        <div style="margin-top:20px;">
+          <button type="button" class="btn btn--primary" data-goto="simulators">
+            Перейти до симуляторів ➡️
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button type="button" class="btn btn--secondary" data-goto="start">⬅️ Назад</button>
+        <div class="nav-footer__right">
+          <button type="button" class="btn btn--secondary" data-goto="start">🏠 На головну</button>
+          <button type="button" class="btn btn--primary" data-goto="simulators">Далі ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 2. ІНТЕРАКТИВНІ СИМУЛЯТОРИ З ЗАВДАННЯМИ ==================== -->
+    <section id="page-simulators" class="page-screen">
+      <div class="card">
+        <h2>Сторінка 2. Інтерактивні симулятори з завданнями (завдання 1–3)</h2>
+        <p class="lead-text">
+          Керуйте параметрами віджета <code>Label</code> у симуляторі, спостерігайте за змінами у вікні <code>tk</code> та натискайте <strong>«Зафіксувати результат симулятора»</strong>. Кожен симулятор оцінюється в <strong>2 бали</strong> (максимум — 6 балів).
+        </p>
+
+        <!-- Симулятор 1 -->
+        <div class="sim-card">
+          <div class="question-header">
+            <div class="question-title">Симулятор 1. Текст та кольорова схема напису (fg, bg)</div>
+            <span class="points-tag">2 бали</span>
+          </div>
+          <div class="sim-task-brief">
+            <strong>Завдання:</strong> У наведеному симуляторі встанови для напису текст <code>Ліцей Інтелект</code>, синій колір тексту (<code>fg = "blue"</code>) та жовтий колір фону (<code>bg = "yellow"</code>).
+          </div>
+          <div class="sim-workspace">
+            <div class="sim-controls-panel">
+              <div class="sim-control-row">
+                <label for="sim1-text">Властивість <code>text</code>:</label>
+                <input id="sim1-text" type="text" class="text-input" value="Вітаю!" />
+              </div>
+              <div class="sim-control-row">
+                <label for="sim1-fg">Колір тексту <code>fg</code>:</label>
+                <select id="sim1-fg" class="select-input">
+                  <option value="black">black (чорний)</option>
+                  <option value="blue">blue (синій)</option>
+                  <option value="purple">purple (фіолетовий)</option>
+                  <option value="green">green (зелений)</option>
+                </select>
+              </div>
+              <div class="sim-control-row">
+                <label for="sim1-bg">Колір фону <code>bg</code>:</label>
+                <select id="sim1-bg" class="select-input">
+                  <option value="white">white (білий)</option>
+                  <option value="yellow">yellow (жовтий)</option>
+                  <option value="lightblue">lightblue (блакитний)</option>
+                  <option value="lightgray">lightgray (світло-сірий)</option>
+                </select>
+              </div>
+              <button type="button" id="btn-submit-sim1" class="btn btn--sky">
+                ✅ Зафіксувати результат симулятора
+              </button>
+            </div>
+
+            <div class="sim-window-frame">
+              <div class="sim-window-bar">
+                <span>tk — Симулятор Label</span>
+                <span>— □ ×</span>
+              </div>
+              <div class="sim-window-canvas">
+                <div id="sim1-preview" class="sim-label-preview">Вітаю!</div>
+              </div>
+              <div id="sim1-code" class="sim-code-strip"></div>
+            </div>
+          </div>
+          <div id="status-sim1" class="status-note"></div>
+        </div>
+
+        <!-- Симулятор 2 -->
+        <div class="sim-card">
+          <div class="question-header">
+            <div class="question-title">Симулятор 2. Конструктор шрифту (font)</div>
+            <span class="points-tag">2 бали</span>
+          </div>
+          <div class="sim-task-brief">
+            <strong>Завдання:</strong> Налаштуй шрифт напису так, щоб отримати гарнітуру <code>Times New Roman</code>, розмір <code>18</code> та напівжирне накреслення (<code>bold</code>).
+          </div>
+          <div class="sim-workspace">
+            <div class="sim-controls-panel">
+              <div class="sim-control-row">
+                <label for="sim2-family">Гарнітура шрифту:</label>
+                <select id="sim2-family" class="select-input">
+                  <option value="Arial">Arial</option>
+                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="Verdana">Verdana</option>
+                </select>
+              </div>
+              <div class="sim-control-row">
+                <label for="sim2-size">Розмір шрифту (пт):</label>
+                <select id="sim2-size" class="select-input">
+                  <option value="12">12</option>
+                  <option value="14">14</option>
+                  <option value="18">18</option>
+                  <option value="22">22</option>
+                </select>
+              </div>
+              <div class="sim-control-row">
+                <label for="sim2-weight">Накреслення:</label>
+                <select id="sim2-weight" class="select-input">
+                  <option value="normal">normal (звичайний)</option>
+                  <option value="bold">bold (напівжирний)</option>
+                  <option value="italic">italic (курсив)</option>
+                </select>
+              </div>
+              <button type="button" id="btn-submit-sim2" class="btn btn--sky">
+                ✅ Зафіксувати результат симулятора
+              </button>
+            </div>
+
+            <div class="sim-window-frame">
+              <div class="sim-window-bar">
+                <span>tk — Налаштування font</span>
+                <span>— □ ×</span>
+              </div>
+              <div class="sim-window-canvas">
+                <div id="sim2-preview" class="sim-label-preview" style="background:#eef5ff; color:#1e3a8a;">
+                  Програмування на Python
+                </div>
+              </div>
+              <div id="sim2-code" class="sim-code-strip"></div>
+            </div>
+          </div>
+          <div id="status-sim2" class="status-note"></div>
+        </div>
+
+        <!-- Симулятор 3 -->
+        <div class="sim-card">
+          <div class="question-header">
+            <div class="question-title">Симулятор 3. Координатне розміщення методом place(x, y)</div>
+            <span class="points-tag">2 бали</span>
+          </div>
+          <div class="sim-task-brief">
+            <strong>Завдання:</strong> Перемісти напис у вікні за допомогою повзунків так, щоб він мав координати <code>x = 80</code> та <code>y = 100</code>. (Крок сітки у вікні — 20 пікселів).
+          </div>
+          <div class="sim-workspace">
+            <div class="sim-controls-panel">
+              <div class="sim-control-row">
+                <label for="sim3-x">Координата <code>x</code>: <strong id="sim3-x-val">20</strong> px</label>
+                <input id="sim3-x" type="range" min="0" max="200" step="10" value="20" />
+              </div>
+              <div class="sim-control-row">
+                <label for="sim3-y">Координата <code>y</code>: <strong id="sim3-y-val">20</strong> px</label>
+                <input id="sim3-y" type="range" min="0" max="150" step="10" value="20" />
+              </div>
+              <button type="button" id="btn-submit-sim3" class="btn btn--sky">
+                ✅ Зафіксувати координати
+              </button>
+            </div>
+
+            <div class="sim-window-frame">
+              <div class="sim-window-bar">
+                <span>tk — Координатна сітка (x, y)</span>
+                <span>— □ ×</span>
+              </div>
+              <div class="sim-window-canvas sim-window-canvas--coords">
+                <div
+                  id="sim3-preview"
+                  class="sim-label-preview sim-label-preview--placed"
+                  style="background:#6d28d9; color:#ffffff; font-weight:700;"
+                >
+                  Напис lbl
+                </div>
+              </div>
+              <div id="sim3-code" class="sim-code-strip"></div>
+            </div>
+          </div>
+          <div id="status-sim3" class="status-note"></div>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button type="button" class="btn btn--secondary" data-goto="theory">⬅️ Назад</button>
+        <div class="nav-footer__right">
+          <button type="button" class="btn btn--secondary" data-goto="start">🏠 На головну</button>
+          <button type="button" class="btn btn--primary" data-goto="practice">Далі ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 3. ПРАКТИЧНІ ЗАВДАННЯ З КОДОМ PYTHON ==================== -->
+    <section id="page-practice" class="page-screen">
+      <div class="card">
+        <h2>Сторінка 3. Практичні завдання з програмування (завдання 4–6)</h2>
+        <p class="lead-text">
+          Напишіть команди Python у полі редактора та натисніть <strong>«Запустити та зберегти»</strong>, щоб перевірити вигляд віджета у вікні попереднього перегляду. Разом за блок — <strong>10 балів</strong>.
+        </p>
+
+        <!-- Практичне завдання 1 -->
+        <div class="practice-card">
+          <div class="question-header">
+            <div class="question-title">Практичне завдання 1. Створення та розміщення базового напису</div>
+            <span class="points-tag">3 бали</span>
+          </div>
+          <p>
+            У вікні <code>root</code> створи напис <code>lbl</code> із текстом <code>"Інформатика 8 клас"</code> та розмісти його у вікні за допомогою методу <code>pack()</code>.
+          </p>
+          <textarea
+            id="editor-p1"
+            class="code-editor-area"
+            spellcheck="false"
+            placeholder='lbl = Label(root, text="...")&#10;lbl.pack()'
+          ></textarea>
+          <div class="practice-actions">
+            <button type="button" id="btn-run-p1" class="btn btn--sky">▶️ Запустити та зберегти</button>
+          </div>
+          <div class="practice-preview-box">
+            <div class="practice-preview-header">Вікно результату (root)</div>
+            <div id="stage-p1" class="practice-preview-stage">
+              <span style="color:#64748b; font-size:0.95rem;">Натисніть «Запустити та зберегти», щоб побачити результат коду у вікні.</span>
+            </div>
+          </div>
+          <div id="status-p1" class="status-note"></div>
+        </div>
+
+        <!-- Практичне завдання 2 -->
+        <div class="practice-card">
+          <div class="question-header">
+            <div class="question-title">Практичне завдання 2. Стилізація напису (кольори та шрифт)</div>
+            <span class="points-tag">3 бали</span>
+          </div>
+          <p>
+            Створи у вікні <code>root</code> напис <code>title_lbl</code> з такими властивостями:
+            текст <code>"Успіхів у навчанні!"</code>, білий колір тексту (<code>fg="white"</code>), фіолетовий фон (<code>bg="purple"</code>) та шрифт <code>font=("Arial", 16, "bold")</code>.
+          </p>
+          <textarea
+            id="editor-p2"
+            class="code-editor-area"
+            spellcheck="false"
+            placeholder='title_lbl = Label(root, text="...", fg="...", bg="...", font=("Arial", 16, "bold"))&#10;title_lbl.pack()'
+          ></textarea>
+          <div class="practice-actions">
+            <button type="button" id="btn-run-p2" class="btn btn--sky">▶️ Запустити та зберегти</button>
+          </div>
+          <div class="practice-preview-box">
+            <div class="practice-preview-header">Вікно результату (root)</div>
+            <div id="stage-p2" class="practice-preview-stage">
+              <span style="color:#64748b; font-size:0.95rem;">Натисніть «Запустити та зберегти», щоб побачити результат коду у вікні.</span>
+            </div>
+          </div>
+          <div id="status-p2" class="status-note"></div>
+        </div>
+
+        <!-- Практичне завдання 3 -->
+        <div class="practice-card">
+          <div class="question-header">
+            <div class="question-title">Практичне завдання 3. Оновлення напису та координатне розміщення</div>
+            <span class="points-tag">4 бали</span>
+          </div>
+          <p>
+            Для існуючого напису <code>msg_lbl</code> зміни за допомогою методу <code>config()</code> текст на <code>"Роботу виконано!"</code> і колір тексту на <code>fg="green"</code>, а потім розмісти його за координатами <code>x=50, y=90</code> методом <code>place()</code>.
+          </p>
+          <textarea
+            id="editor-p3"
+            class="code-editor-area"
+            spellcheck="false"
+            placeholder='msg_lbl.config(text="...", fg="...")&#10;msg_lbl.place(x=50, y=90)'
+          ></textarea>
+          <div class="practice-actions">
+            <button type="button" id="btn-run-p3" class="btn btn--sky">▶️ Запустити та зберегти</button>
+          </div>
+          <div class="practice-preview-box">
+            <div class="practice-preview-header">Вікно результату (root)</div>
+            <div id="stage-p3" class="practice-preview-stage">
+              <span style="color:#64748b; font-size:0.95rem;">Натисніть «Запустити та зберегти», щоб побачити результат коду у вікні.</span>
+            </div>
+          </div>
+          <div id="status-p3" class="status-note"></div>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button type="button" class="btn btn--secondary" data-goto="simulators">⬅️ Назад</button>
+        <div class="nav-footer__right">
+          <button type="button" class="btn btn--secondary" data-goto="start">🏠 На головну</button>
+          <button type="button" class="btn btn--primary" data-goto="test">Далі ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 4. ТЕСТОВІ ЗАВДАННЯ (8 ТЕСТІВ) ==================== -->
+    <section id="page-test" class="page-screen">
+      <div class="card">
+        <h2>Сторінка 4. Тестові завдання (завдання 7–14)</h2>
+        <p class="lead-text">Оберіть один правильний варіант у кожному завданні. Кожне тестове завдання оцінюється в <strong>1 бал</strong> (максимум — 8 балів).</p>
+
+        <!-- Тест 1 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 1. Який клас віджета в бібліотеці tkinter використовується для створення текстового напису?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q1" value="А" /><span>А) Button</span></label>
+            <label class="option-item"><input type="radio" name="q1" value="Б" /><span>Б) Entry</span></label>
+            <label class="option-item"><input type="radio" name="q1" value="В" /><span>В) Label</span></label>
+            <label class="option-item"><input type="radio" name="q1" value="Г" /><span>Г) Canvas</span></label>
+          </div>
+          <div id="status-q1" class="status-note"></div>
+        </div>
+
+        <!-- Тест 2 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 2. Яка властивість віджета Label задає сам текст, що відображається в написі?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q2" value="А" /><span>А) title</span></label>
+            <label class="option-item"><input type="radio" name="q2" value="Б" /><span>Б) text</span></label>
+            <label class="option-item"><input type="radio" name="q2" value="В" /><span>В) caption</span></label>
+            <label class="option-item"><input type="radio" name="q2" value="Г" /><span>Г) value</span></label>
+          </div>
+          <div id="status-q2" class="status-note"></div>
+        </div>
+
+        <!-- Тест 3 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 3. Який параметр визначає колір символів тексту в написі Label?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q3" value="А" /><span>А) fg</span></label>
+            <label class="option-item"><input type="radio" name="q3" value="Б" /><span>Б) bg</span></label>
+            <label class="option-item"><input type="radio" name="q3" value="В" /><span>В) color</span></label>
+            <label class="option-item"><input type="radio" name="q3" value="Г" /><span>Г) fill</span></label>
+          </div>
+          <div id="status-q3" class="status-note"></div>
+        </div>
+
+        <!-- Тест 4 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 4. Яка властивість відповідає за колір фону напису?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q4" value="А" /><span>А) fg</span></label>
+            <label class="option-item"><input type="radio" name="q4" value="Б" /><span>Б) bg</span></label>
+            <label class="option-item"><input type="radio" name="q4" value="В" /><span>В) bd</span></label>
+            <label class="option-item"><input type="radio" name="q4" value="Г" /><span>Г) font</span></label>
+          </div>
+          <div id="status-q4" class="status-note"></div>
+        </div>
+
+        <!-- Тест 5 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 5. Як правильно задати для напису напівжирний шрифт Arial розміром 16?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q5" value="А" /><span>А) font="Arial 16 big"</span></label>
+            <label class="option-item"><input type="radio" name="q5" value="Б" /><span>Б) font=("Arial", "bold", 16)</span></label>
+            <label class="option-item"><input type="radio" name="q5" value="В" /><span>В) font=("Arial", 16, "bold")</span></label>
+            <label class="option-item"><input type="radio" name="q5" value="Г" /><span>Г) font=[16, "Arial"]</span></label>
+          </div>
+          <div id="status-q5" class="status-note"></div>
+        </div>
+
+        <!-- Тест 6 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 6. Який метод потрібно викликати для створеного об'єкта lbl, щоб він відобразився у вікні програми?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q6" value="А" /><span>А) lbl.print()</span></label>
+            <label class="option-item"><input type="radio" name="q6" value="Б" /><span>Б) lbl.open()</span></label>
+            <label class="option-item"><input type="radio" name="q6" value="В" /><span>В) lbl.input()</span></label>
+            <label class="option-item"><input type="radio" name="q6" value="Г" /><span>Г) lbl.pack()</span></label>
+          </div>
+          <div id="status-q6" class="status-note"></div>
+        </div>
+
+        <!-- Тест 7 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 7. За допомогою якого методу можна змінити властивості вже створеного напису під час роботи програми?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q7" value="А" /><span>А) title()</span></label>
+            <label class="option-item"><input type="radio" name="q7" value="Б" /><span>Б) config()</span></label>
+            <label class="option-item"><input type="radio" name="q7" value="В" /><span>В) mainloop()</span></label>
+            <label class="option-item"><input type="radio" name="q7" value="Г" /><span>Г) destroy()</span></label>
+          </div>
+          <div id="status-q7" class="status-note"></div>
+        </div>
+
+        <!-- Тест 8 -->
+        <div class="question-card">
+          <div class="question-header">
+            <div class="question-title">Тест 8. У яких одиницях вимірюються властивості width та height для текстового віджета Label?</div>
+            <span class="points-tag">1 бал</span>
+          </div>
+          <div class="options-list">
+            <label class="option-item"><input type="radio" name="q8" value="А" /><span>А) У символах (ширина) та рядках (висота)</span></label>
+            <label class="option-item"><input type="radio" name="q8" value="Б" /><span>Б) У сантиметрах</span></label>
+            <label class="option-item"><input type="radio" name="q8" value="В" /><span>В) У відсотках від екрана</span></label>
+            <label class="option-item"><input type="radio" name="q8" value="Г" /><span>Г) У міліметрах</span></label>
+          </div>
+          <div id="status-q8" class="status-note"></div>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button type="button" class="btn btn--secondary" data-goto="practice">⬅️ Назад</button>
+        <div class="nav-footer__right">
+          <button type="button" class="btn btn--secondary" data-goto="start">🏠 На головну</button>
+          <button type="button" class="btn btn--primary" data-goto="report">Завершити та переглянути звіт ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТОРІНКА 5. ПІДСУМКОВИЙ ЗВІТ ==================== -->
+    <section id="page-report" class="page-screen">
+      <div class="card" id="report-card">
+        <div class="report-school-header">
+          <div class="report-school-header__institution">КЗ «Ліцей “Інтелект” Долинської міської ради»</div>
+          <h2 style="margin:6px 0 4px;">Підсумковий звіт про виконання роботи</h2>
+          <div>
+            <strong>Предмет:</strong> Інформатика &nbsp;|&nbsp; <strong>Клас:</strong> 8
+          </div>
+          <div style="margin-top:4px; font-weight:600;">
+            <strong>Тема:</strong> Написи в Python
+          </div>
+        </div>
+
+        <div class="report-meta-grid">
+          <div class="report-meta-box"><span>ПІБ учня</span><strong id="rep-pib">—</strong></div>
+          <div class="report-meta-box"><span>Клас учня</span><strong id="rep-class">—</strong></div>
+          <div class="report-meta-box"><span>Дата виконання</span><strong id="rep-date">—</strong></div>
+          <div class="report-meta-box"><span>Дата формування звіту</span><strong id="rep-print-date">—</strong></div>
+        </div>
+
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Блок завдань</th>
+              <th>Кількість завдань</th>
+              <th>Набрані бали</th>
+              <th>Максимум балів</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Інтерактивні симулятори</td>
+              <td>3</td>
+              <td id="rep-sim-score">0</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>Практичні завдання з кодування</td>
+              <td>3</td>
+              <td id="rep-practice-score">0</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>Тестові завдання</td>
+              <td>8</td>
+              <td id="rep-test-score">0</td>
+              <td>8</td>
+            </tr>
+            <tr class="total-row">
+              <td>Усього</td>
+              <td>14</td>
+              <td id="rep-total-score">0</td>
+              <td>24</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="summary-highlights">
+          <div class="highlight-card">
+            <div>Набрано балів</div>
+            <div class="highlight-card__value"><span id="rep-box-total">0</span> / 24</div>
+          </div>
+          <div class="highlight-card">
+            <div>Відсоток правильних відповідей</div>
+            <div class="highlight-card__value" id="rep-box-percent">0%</div>
+          </div>
+          <div class="highlight-card highlight-card--grade">
+            <div>Оцінка за 12-бальною шкалою</div>
+            <div class="highlight-card__value"><span id="rep-box-grade">1</span> / 12</div>
+          </div>
+        </div>
+
+        <div id="rep-comment" class="comment-banner"></div>
+
+        <div class="rule-box">
+          <strong>Загальний підсумок:</strong> <span id="rep-general-summary"></span>
+        </div>
+
+        <details class="scale-details">
+          <summary style="cursor:pointer; font-weight:700; color:#1e3a8a;">
+            Шкала переведення балів (0–24) у 12-бальну систему оцінювання
+          </summary>
+          <div class="scale-grid">
+            <div class="scale-cell">0–2 б. → <strong>1</strong></div>
+            <div class="scale-cell">3–4 б. → <strong>2</strong></div>
+            <div class="scale-cell">5–6 б. → <strong>3</strong></div>
+            <div class="scale-cell">7–8 б. → <strong>4</strong></div>
+            <div class="scale-cell">9–10 б. → <strong>5</strong></div>
+            <div class="scale-cell">11–12 б. → <strong>6</strong></div>
+            <div class="scale-cell">13–14 б. → <strong>7</strong></div>
+            <div class="scale-cell">15–16 б. → <strong>8</strong></div>
+            <div class="scale-cell">17–18 б. → <strong>9</strong></div>
+            <div class="scale-cell">19–20 б. → <strong>10</strong></div>
+            <div class="scale-cell">21–22 б. → <strong>11</strong></div>
+            <div class="scale-cell">23–24 б. → <strong>12</strong></div>
+          </div>
+        </details>
+
+        <div class="print-sign-block">
+          <div>
+            <div class="sign-line"></div>
+            <div>Підпис учня (<span id="rep-sign-pib"></span>)</div>
+          </div>
+          <div>
+            <div class="sign-line"></div>
+            <div>Підпис вчителя інформатики</div>
+          </div>
+        </div>
+
+        <div class="print-actions">
+          <button type="button" id="btn-print-report" class="btn btn--primary btn--print">
+            🖨️ ДРУКУВАТИ ЗВІТ
+          </button>
+          <button type="button" id="btn-reset-work" class="btn btn--warning">
+            🔄 Пройти роботу повторно (скинути відповіді)
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-footer">
+        <button type="button" class="btn btn--secondary" data-goto="test">⬅️ Назад</button>
+        <div class="nav-footer__right">
+          <button type="button" class="btn btn--secondary" data-goto="start">🏠 На головну</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      window.addEventListener("load", function () {
+        var activePage = document.querySelector(".page-screen.is-active");
+        if (!activePage) {
+          var firstPage = document.getElementById("page-start");
+          if (firstPage) firstPage.classList.add("is-active");
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
